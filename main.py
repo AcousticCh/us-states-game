@@ -23,6 +23,9 @@ answer = screen.textinput(title="Guess The State", prompt="name a state")
 while states_correct_count < 50:
     test_ans = answer.title()
     if test_ans == exit_cmd:
+        states_to_learn_data = [s for s in states_list if s not in states_correct]
+        states_to_learn = pd.Series(states_to_learn_data, name="states to study")
+        states_to_learn.to_csv("./states_to_learn.csv", index=False)
         break
 
     if test_ans in states_list:
@@ -36,10 +39,4 @@ while states_correct_count < 50:
         states_correct_count += 1
     answer = screen.textinput(title=f"{states_correct_count}/50 Correct", prompt="name another state")
 
-for s in states_correct:
-    if s in states_list:
-        states_list.remove(s)
 
-
-states_to_learn = pd.Series(states_list, name="states to study")
-states_to_learn.to_csv("./states_to_learn.csv", index=False)
